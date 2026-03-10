@@ -1,16 +1,21 @@
 from models.excecoes import IngressoJaComprado
 
 class Cliente:
-    def __init__(self, nome, cpf, email):
+    def __init__(self, nome, cpf, email, senha):
         self.nome = nome
         self._cpf = cpf
         self.email = email
+        self._senha = senha
         self.ingressos = {}
+
+    @property
+    def senha(self):
+        return self._senha
 
     def comprar_ingresso(self, ingresso): 
         if not ingresso.tipo in self.ingressos.keys():
             self.ingressos[ingresso.tipo] = ingresso
-            return "Ingresso Comprado."
+            return f"Ingresso Comprado <{ingresso.tipo}> por {self.nome}."
         else:
             raise IngressoJaComprado
     def listar_ingressos(self):
@@ -18,3 +23,6 @@ class Cliente:
 
     def __repr__(self):
         return f"Cliente: {self.nome} | Email: {self.email} | Ingressos: {[i for i in self.ingressos.keys()]}"
+
+    def cadastrar_cliente(self):
+        from models.interface.menu import menu

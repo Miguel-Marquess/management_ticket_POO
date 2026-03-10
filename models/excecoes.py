@@ -9,3 +9,7 @@ class ClienteNaoExiste(Exception):
 class IngressosEsgotados(Exception):
     def __str__(self):
         return "Ingressos Esgotados. Ate a proxima!"
+    
+class SenhaIncorreta(Exception):
+    def __str__(self):
+        return "Senha incorreta! Tente novamente."

@@ -14,7 +14,15 @@ class Ingresso:
     def __repr__(self):
         return self.__str__()
 
-
+def Selecionar_tipo(tipos):
+    ingressos = {}
+    for p, v in enumerate(tipos, start=1):
+        ingressos[p] = v
+    print("Selecione um Ingresso".center(40, "-"))
+    while True:
+        try:
+            for v, p in ingressos:
+                
 # class VIP(Ingresso):
 #     def __init__(self):
 #         super().__init__(tipo="VIP", preco=500, codigo="<VIP>" + secrets.token_hex(4))
