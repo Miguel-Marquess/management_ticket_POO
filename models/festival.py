@@ -1,9 +1,8 @@
 from models.cliente import Cliente
 from models.excecoes import IngressoJaComprado, ClienteNaoExiste, IngressosEsgotados, SenhaIncorreta
-from models.ingresso import Ingresso, Selecionar_tipo
+from models.ingresso import Ingresso, selecionar_tipo
 from models.palco import Palco
 import secrets
-cliente = Cliente("Jose", "123.456.789-10", "jpse@gmail.com", "1234")
 
 class Festival:
     def __init__(self, nome: str, data: str, local: str, palco: object):
@@ -11,13 +10,11 @@ class Festival:
         self.data = data
         self.local = local
         self.palco = palco
-        self._clientes = {
-            "123.456.789-10" : cliente
-        }
+        self._clientes = {}
         self.ingressos = palco.capacidade
 
     def buscar_cliente(self, cpf):
-        for cpf_c, cliente in self._clientes:
+        for cpf_c, cliente in self._clientes.items():
             if cpf_c == cpf:
                 return cliente
         else:
@@ -30,14 +27,14 @@ class Festival:
             raise IngressosEsgotados
     
     def vender_ingressos(self, cliente): 
-        tipo = Selecionar_tipo(self.ingressos.keys())
+        tipo = selecionar_tipo(self.ingressos.keys())
         ingresso = Ingresso(tipo, self.ingressos[tipo]["preco"], f"<{tipo}>" + secrets.token_hex(4))
         if self.ingressos[tipo]["quantidade"] >= 1:
+            cliente.comprar_ingresso(ingresso)
             self.ingressos[tipo]["quantidade"] -=1
+            return f"Ingresso Comprado <{ingresso.tipo}> por {cliente.nome}."
         else:
             raise IngressosEsgotados
-        return cliente.comprar_ingresso(ingresso)
-
         
     def listar_clientes(self):
         return [c for c in self._clientes.values()]
@@ -49,4 +46,7 @@ class Festival:
             return self.vender_ingressos(cliente)
         else:
             raise SenhaIncorreta
-    def cadastrar_cliente(self):
+    def cadastrar_cliente(self, nome, cpf, email, senha):
+        if not self._clientes[cpf]: 
+            self.ingressos[cpf] = Cliente(nome, cpf, email, senha)
+        return "Cliente cadastrado! Tente fazer Login."

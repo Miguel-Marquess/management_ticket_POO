@@ -15,7 +15,6 @@ class Cliente:
     def comprar_ingresso(self, ingresso): 
         if not ingresso.tipo in self.ingressos.keys():
             self.ingressos[ingresso.tipo] = ingresso
-            return f"Ingresso Comprado <{ingresso.tipo}> por {self.nome}."
         else:
             raise IngressoJaComprado
     def listar_ingressos(self):
