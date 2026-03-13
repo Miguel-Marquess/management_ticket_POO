@@ -13,3 +13,7 @@ class IngressosEsgotados(Exception):
 class SenhaIncorreta(Exception):
     def __str__(self):
         return "Senha incorreta! Tente novamente."
+    
+class ClienteJaExiste(Exception):
+    def __str__(self):
+        return "Cliente ja esta cadastrado!"

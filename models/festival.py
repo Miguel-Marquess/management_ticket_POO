@@ -1,5 +1,5 @@
 from models.cliente import Cliente
-from models.excecoes import IngressoJaComprado, ClienteNaoExiste, IngressosEsgotados, SenhaIncorreta
+from models.excecoes import IngressoJaComprado, ClienteNaoExiste, IngressosEsgotados, SenhaIncorreta, ClienteJaExiste
 from models.ingresso import Ingresso, selecionar_tipo
 from models.palco import Palco
 import secrets
@@ -37,16 +37,20 @@ class Festival:
             raise IngressosEsgotados
         
     def listar_clientes(self):
-        return [c for c in self._clientes.values()]
+        return [c.nome for c in self._clientes.values()]
     
     def login(self, cpf, senha):
         cliente = self.buscar_cliente(cpf)
         senha_cliente = cliente.senha
         if senha == senha_cliente:
-            return self.vender_ingressos(cliente)
+            return "Cliente logado com sucesso!", cliente
         else:
             raise SenhaIncorreta
     def cadastrar_cliente(self, nome, cpf, email, senha):
-        if not self._clientes[cpf]: 
-            self.ingressos[cpf] = Cliente(nome, cpf, email, senha)
-        return "Cliente cadastrado! Tente fazer Login."
+        if not cpf in self._clientes: 
+            usuario = Cliente(nome, cpf, email, senha)
+            self._clientes[cpf] = usuario
+            return "Cliente cadastrado! Bem vindo.", usuario
+        else:
+            raise ClienteJaExiste
+        
