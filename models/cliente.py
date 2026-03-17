@@ -11,6 +11,10 @@ class Cliente:
     @property
     def senha(self):
         return self._senha
+    
+    @property 
+    def cpf(self):
+        return self._cpf
 
     def comprar_ingresso(self, ingresso): 
         if not ingresso.tipo in self.ingressos.keys():

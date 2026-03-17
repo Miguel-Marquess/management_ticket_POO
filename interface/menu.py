@@ -16,3 +16,18 @@ def menu(nome_festival):
                 return valor
         except:
             print("Opcao invalida.")
+
+def selecionar_tipo(tipos):
+    ingressos = {}
+    for p, v in enumerate(tipos, start=1):
+        ingressos[p] = v
+    print("Selecione um Ingresso".center(40, "-"))
+    while True:
+         try:
+             for p, v in ingressos.items():
+                 print(f"{p} - {v[0]} | Preco: {v[1]["preco"]} | Disponivel: {v[1]["quantidade"]}")
+             return ingressos[int(input("Digite a posicao: \n>>> "))][0]
+         except KeyError:
+            print("Digite uma opcao valida.")
+         except Exception as e:
+             print(e)

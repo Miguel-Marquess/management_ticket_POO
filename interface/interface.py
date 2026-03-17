@@ -1,5 +1,5 @@
-from models.interface.menu import menu
-from models.interface.login import login
+from interface.menu import menu, selecionar_tipo
+from interface.login import login
 from models.festival import Festival
 from models.palco import Palco
 from models.excecoes import *
@@ -13,21 +13,23 @@ palco = Palco("Palco Mundo", {
         "preco" : 700,
         "quantidade" : 2},
     "Pista" : {
-        "preco" : 500,
+        "preco" : 250,
         "quantidade" : 5}
 })
 festival = Festival("Rock in Rio", "12-12-2026", "Rio de Janeiro", palco)
+
 def gerenciamento():
     logar = login(festival)
     print(logar[0])
     while True:
-        try:
+        # try:
             if logar:
                 request = menu(festival.nome)
                 if request == "1":
-                    print(festival.vender_ingressos(logar[1]))
+                    tipos = selecionar_tipo(festival.ingressos)
+                    print(festival.vender_ingressos(logar[1], tipos))
                 elif request == "2":
-                    print(festival.buscar_cliente(logar[1]))
+                    print(festival.buscar_cliente(logar[1].cpf))
                 elif request == "3":
                     lista_ingressos = festival.listar_ingressos()
                     for i, q in lista_ingressos.items():
@@ -39,5 +41,5 @@ def gerenciamento():
                 elif request == "5":
                     print("Sistema encerrando! Obrigado!")
                     break
-        except Exception as e:
-            print(e)
+        # except Exception as e:
+        #     print(e)

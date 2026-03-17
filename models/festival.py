@@ -1,6 +1,6 @@
 from models.cliente import Cliente
 from models.excecoes import IngressoJaComprado, ClienteNaoExiste, IngressosEsgotados, SenhaIncorreta, ClienteJaExiste
-from models.ingresso import Ingresso, selecionar_tipo
+from models.ingresso import Ingresso
 from models.palco import Palco
 import secrets
 
@@ -11,7 +11,7 @@ class Festival:
         self.local = local
         self.palco = palco
         self._clientes = {}
-        self.ingressos = palco.capacidade
+        self._ingressos = palco.capacidade
 
     def buscar_cliente(self, cpf):
         for cpf_c, cliente in self._clientes.items():
@@ -21,17 +21,19 @@ class Festival:
             raise ClienteNaoExiste
     
     def listar_ingressos(self):
-        if sum(i["quantidade"] for i in self.ingressos.values()) >= 1:
-            return self.ingressos
+        if sum(i["quantidade"] for i in self._ingressos.values()) >= 1:
+            return self._ingressos
         else:
             raise IngressosEsgotados
+    @property
+    def ingressos(self):
+        return self._ingressos.items()
     
-    def vender_ingressos(self, cliente): 
-        tipo = selecionar_tipo(self.ingressos.keys())
-        ingresso = Ingresso(tipo, self.ingressos[tipo]["preco"], f"<{tipo}>" + secrets.token_hex(4))
-        if self.ingressos[tipo]["quantidade"] >= 1:
+    def vender_ingressos(self, cliente, tipo): 
+        ingresso = Ingresso(tipo, self._ingressos[tipo]["preco"], f"<{tipo}>" + secrets.token_hex(4))
+        if self._ingressos[tipo]["quantidade"] >= 1:
             cliente.comprar_ingresso(ingresso)
-            self.ingressos[tipo]["quantidade"] -=1
+            self._ingressos[tipo]["quantidade"] -=1
             return f"Ingresso Comprado <{ingresso.tipo}> por {cliente.nome}."
         else:
             raise IngressosEsgotados
@@ -46,8 +48,9 @@ class Festival:
             return "Cliente logado com sucesso!", cliente
         else:
             raise SenhaIncorreta
+        
     def cadastrar_cliente(self, nome, cpf, email, senha):
-        if not cpf in self._clientes: 
+        if cpf not in self._clientes.keys(): 
             usuario = Cliente(nome, cpf, email, senha)
             self._clientes[cpf] = usuario
             return "Cliente cadastrado! Bem vindo.", usuario

@@ -1,3 +1,2 @@
-from models.interface.interface import gerenciamento
-
+from interface.interface import gerenciamento
 gerenciamento()

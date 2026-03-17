@@ -13,7 +13,7 @@ def login(festival):
                 cpf_ = input("Digite seu CPF: \n>>> ")
                 email_ = input("Digite seu email: \n>>> ")
                 senha_ = input("Digite sua senha: \n>>> ")
-                return festival.cadastrar_cliente(nome_, cpf_, email_, senha_)
+                return festival.cadastrar_cliente(nome_, cpf_, email_, senha_) #mensagem, objeto usuario
             else:
                 print("Digite uma opcao valida.")
         except Exception as e:
