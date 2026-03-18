@@ -1,6 +1,6 @@
 from models.cliente import Cliente
 from models.excecoes import IngressoJaComprado, ClienteNaoExiste, IngressosEsgotados, SenhaIncorreta, ClienteJaExiste
-from models.ingresso import Ingresso
+from models.ingresso import Ingresso, Banca_Ingresso
 from models.palco import Palco
 import secrets
 
@@ -11,35 +11,27 @@ class Festival:
         self.local = local
         self.palco = palco
         self._clientes = {}
-        self._ingressos = palco.capacidade
+        self._ingressos = Banca_Ingresso(palco)
 
     def buscar_cliente(self, cpf):
-        for cpf_c, cliente in self._clientes.items():
-            if cpf_c == cpf:
-                return cliente
+        if cpf in self._clientes:    
+            return self._clientes.get(cpf)
         else:
             raise ClienteNaoExiste
-    
     def listar_ingressos(self):
-        if sum(i["quantidade"] for i in self._ingressos.values()) >= 1:
-            return self._ingressos
+        if sum(i["quantidade"] for i in self._ingressos.capacidade_palco.values()) >= 1:
+            return self._ingressos.capacidade_palco
         else:
             raise IngressosEsgotados
     @property
     def ingressos(self):
-        return self._ingressos.items()
+        return self._ingressos.capacidade_palco.items()
     
-    def vender_ingressos(self, cliente, tipo): 
-        ingresso = Ingresso(tipo, self._ingressos[tipo]["preco"], f"<{tipo}>" + secrets.token_hex(4))
-        if self._ingressos[tipo]["quantidade"] >= 1:
-            cliente.comprar_ingresso(ingresso)
-            self._ingressos[tipo]["quantidade"] -=1
-            return f"Ingresso Comprado <{ingresso.tipo}> por {cliente.nome}."
-        else:
-            raise IngressosEsgotados
+    def vender_ingressos(self, cliente, tipo):  #Palco retorna quantos ingresos tem, quantos disponiveis, ele mesmomdiminue a quantidade
+        return self._ingressos.vender(tipo, cliente)
         
     def listar_clientes(self):
-        return [c.nome for c in self._clientes.values()]
+        return [c for c in self._clientes.values()]
     
     def login(self, cpf, senha):
         cliente = self.buscar_cliente(cpf)

@@ -17,3 +17,4 @@ class SenhaIncorreta(Exception):
 class ClienteJaExiste(Exception):
     def __str__(self):
         return "Cliente ja esta cadastrado!"
+    

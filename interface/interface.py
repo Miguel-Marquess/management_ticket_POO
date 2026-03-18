@@ -22,12 +22,13 @@ def gerenciamento():
     logar = login(festival)
     print(logar[0])
     while True:
-        # try:
+        try:
             if logar:
                 request = menu(festival.nome)
                 if request == "1":
                     tipos = selecionar_tipo(festival.ingressos)
-                    print(festival.vender_ingressos(logar[1], tipos))
+                    ingresso_comprado = festival.vender_ingressos(logar[1], tipos)
+                    print(f"Ingresso <{ingresso_comprado.tipo}> comprado por {logar[1].nome}!")
                 elif request == "2":
                     print(festival.buscar_cliente(logar[1].cpf))
                 elif request == "3":
@@ -41,5 +42,7 @@ def gerenciamento():
                 elif request == "5":
                     print("Sistema encerrando! Obrigado!")
                     break
-        # except Exception as e:
-        #     print(e)
+        except (KeyError):
+            print("Opcao Invalida.")
+        except Exception as e:
+            print(e)

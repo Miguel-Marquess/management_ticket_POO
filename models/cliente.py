@@ -17,12 +17,16 @@ class Cliente:
         return self._cpf
 
     def comprar_ingresso(self, ingresso): 
-        if not ingresso.tipo in self.ingressos.keys():
+        if ingresso.tipo not in self.ingressos.keys():
             self.ingressos[ingresso.tipo] = ingresso
         else:
             raise IngressoJaComprado
+    
     def listar_ingressos(self):
         return [i for i in self.ingressos.values()]
 
     def __repr__(self):
+        return self.__str__()
+    def __str__(self):
         return f"Cliente: {self.nome} | Email: {self.email} | Ingressos: {[i for i in self.ingressos.keys()]}"
+        
