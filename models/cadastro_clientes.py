@@ -14,7 +14,7 @@ class Cadastro_Login:
         cliente = self.buscar_cliente(cpf)
         senha_cliente = cliente.senha
         if senha == senha_cliente:
-            return "Cliente logado com sucesso!", cliente
+            return cliente
         else:
             raise SenhaIncorreta
         
@@ -25,6 +25,6 @@ class Cadastro_Login:
         if cpf not in self._clientes.keys(): 
             usuario = Cliente(nome, cpf, email, senha)
             self._clientes[cpf] = usuario
-            return "Cliente cadastrado! Bem vindo.", usuario
+            return usuario
         else:
             raise ClienteJaExiste

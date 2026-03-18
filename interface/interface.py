@@ -21,18 +21,17 @@ festival = Festival("Rock in Rio", "12-12-2026", "Rio de Janeiro", palco)
 
 def gerenciamento():
     clientes = Cadastro_Login()
-    logar = login(clientes)
-    print(logar[0])
+    usuario = login(clientes)
     while True:
         try:
-            if logar:
+            if usuario:
                 request = menu(festival.nome)
                 if request == "1":
                     tipos = selecionar_tipo(festival.ingressos)
-                    ingresso_comprado = festival.vender_ingressos(logar[1], tipos)
-                    print(f"Ingresso <{ingresso_comprado.tipo}> comprado por {logar[1].nome}!")
+                    ingresso_comprado = festival.vender_ingressos(usuario, tipos)
+                    print(f"Ingresso <{ingresso_comprado.tipo}> comprado por {usuario.nome}!")
                 elif request == "2":
-                    print(clientes.buscar_cliente(logar[1].cpf))
+                    print(clientes.buscar_cliente(usuario.cpf))
                 elif request == "3":
                     lista_ingressos = festival.listar_ingressos()
                     for i, q in lista_ingressos.items():
