@@ -3,6 +3,7 @@ from interface.login import login
 from models.festival import Festival
 from models.palco import Palco
 from models.excecoes import *
+from models.cadastro_clientes import Cadastro_Login
 
 palco = Palco("Palco Mundo", {
     "VIP" : {
@@ -19,7 +20,8 @@ palco = Palco("Palco Mundo", {
 festival = Festival("Rock in Rio", "12-12-2026", "Rio de Janeiro", palco)
 
 def gerenciamento():
-    logar = login(festival)
+    clientes = Cadastro_Login()
+    logar = login(clientes)
     print(logar[0])
     while True:
         try:
@@ -30,13 +32,13 @@ def gerenciamento():
                     ingresso_comprado = festival.vender_ingressos(logar[1], tipos)
                     print(f"Ingresso <{ingresso_comprado.tipo}> comprado por {logar[1].nome}!")
                 elif request == "2":
-                    print(festival.buscar_cliente(logar[1].cpf))
+                    print(clientes.buscar_cliente(logar[1].cpf))
                 elif request == "3":
                     lista_ingressos = festival.listar_ingressos()
                     for i, q in lista_ingressos.items():
                         print(f"Tipo: {i} | Quantidade: {q["quantidade"]}")
                 elif request == "4":
-                    nomes_clientes = festival.listar_clientes()
+                    nomes_clientes = clientes.listar_clientes()
                     for n in nomes_clientes:
                         print(n)
                 elif request == "5":
