@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Tickets
 
-## Projeto feito em Python que simula um sistema real de Login e venda de tickets para um evento, utilizando Programação Orientada a Objetos e arquitetura modular.
+ Projeto feito em Python que simula um sistema real de Login e venda de tickets para um evento, utilizando Programação Orientada a Objetos e arquitetura modular.
 
 ---
 
