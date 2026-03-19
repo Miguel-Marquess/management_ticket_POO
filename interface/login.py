@@ -9,6 +9,7 @@ def login(banco):
                 objeto_cliente = banco.login(cpf, senha)
                 print("Cliente logado com sucesso!")
                 return objeto_cliente
+                
             elif reposta_login == "n":
                 nome_ = input("Digite seu nome: \n>>> ")
                 cpf_ = input("Digite seu CPF: \n>>> ")

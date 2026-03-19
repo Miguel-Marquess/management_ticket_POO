@@ -27,6 +27,7 @@ class Cliente:
 
     def __repr__(self):
         return self.__str__()
+    
     def __str__(self):
         return f"Cliente: {self.nome} | Email: {self.email} | Ingressos: {[i for i in self.ingressos.keys()]}"
         
