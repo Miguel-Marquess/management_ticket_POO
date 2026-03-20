@@ -9,6 +9,10 @@ class Ingresso:
     @property
     def tipo(self):
         return self._tipo
+    
+    @property
+    def preco(self):
+        return self._preco
 
     def __str__(self):
         return f"[{self._codigo}] | Tipo: {self._tipo} | Preço: {self._preco}"

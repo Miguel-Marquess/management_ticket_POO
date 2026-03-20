@@ -4,7 +4,8 @@ def menu(nome_festival):
         "2" : "Ver seus ingressos",
         "3" : "Vizualizar ingressos disponiveis",
         "4" : "Ver clientes do Festival",
-        "5" : "Sair" 
+        "5" : "Total arrecadado: ",
+        "6" : "Sair" 
     }
     while True:
         print(f" FESTIVAL {nome_festival}".center(40, "-"))

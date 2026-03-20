@@ -41,6 +41,8 @@ def gerenciamento():
                     for n in nomes_clientes:
                         print(n)
                 elif request == "5":
+                    print(f"O Total arrecadado: R${festival.total_arrecadado:_.1f}".replace("_", "."))
+                elif request == "6":
                     print("Sistema encerrando! Obrigado!")
                     break
         except (KeyError):

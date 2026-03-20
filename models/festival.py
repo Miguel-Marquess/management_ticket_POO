@@ -11,7 +11,7 @@ class Festival:
         self.local = local
         self.palco = palco
         self._ingressos = Banca_Ingresso(palco)
-
+        self._total_arrecadado = 0
     def listar_ingressos(self):
         if sum(i["quantidade"] for i in self._ingressos.capacidade_palco.values()) >= 1:
             return self._ingressos.capacidade_palco
@@ -22,7 +22,9 @@ class Festival:
         return self._ingressos.capacidade_palco.items()
     
     def vender_ingressos(self, cliente, tipo):  #Palco retorna quantos ingresos tem, quantos disponiveis, ele mesmomdiminue a quantidade
-        return self._ingressos.vender(tipo, cliente)
-        
-
-        
+        ingresso_vendido = self._ingressos.vender(tipo, cliente)
+        self._total_arrecadado +=ingresso_vendido.preco
+        return ingresso_vendido
+    @property
+    def total_arrecadado(self):
+        return self._total_arrecadado
